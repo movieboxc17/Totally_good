@@ -4,103 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Styles for the popup and overlay */
+        /* Styles for the popup */
         .popup {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1;
-        }
-
-        .popup-content {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
         }
 
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
+        /* Style for the images */
+        .popup img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
-    <title>Auto-Popups Example</title>
+    <title>Random Image Popups</title>
 </head>
 <body>
-    <!-- Pop-up container -->
-    <div id="popupContainer"></div>
-
     <script>
-        // Function to generate and display a popup
-        function generatePopup(popupId) {
-            const popupContainer = document.getElementById("popupContainer");
+        // Function to generate and display a popup with a random position
+        function generatePopup(imageSrc) {
             const popup = document.createElement("div");
             popup.classList.add("popup");
-            popup.id = popupId;
-
-            const popupContent = document.createElement("div");
-            popupContent.classList.add("popup-content");
-
-            const closeBtn = document.createElement("span");
-            closeBtn.classList.add("close");
-            closeBtn.innerHTML = "&times;";
-            closeBtn.addEventListener("click", function() {
-                closePopup(popupId);
-            });
 
             const popupImage = document.createElement("img");
-            popupImage.src = `${popupId}.jpg`;
-            popupImage.alt = `Image ${popupId}`;
+            popupImage.src = imageSrc; // Set the image source
+            popup.appendChild(popupImage);
 
-            popupContent.appendChild(closeBtn);
-            popupContent.appendChild(popupImage);
-            popup.appendChild(popupContent);
-            popupContainer.appendChild(popup);
+            // Set random position
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const randomX = Math.floor(Math.random() * (screenWidth - 200)); // Adjust width of the popup
+            const randomY = Math.floor(Math.random() * (screenHeight - 200)); // Adjust height of the popup
+            popup.style.left = `${randomX}px`;
+            popup.style.top = `${randomY}px`;
 
-            // Display the popup
-            popup.style.display = "block";
+            document.body.appendChild(popup);
 
             // Automatically close the popup after a delay (e.g., 5 seconds)
             setTimeout(function() {
-                closePopup(popupId);
+                popup.remove();
             }, 5000);
         }
 
-        // Function to close a specific popup
-        function closePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            if (popup) {
-                popup.style.display = "none";
-            }
-        }
+        // Function to continuously generate popups with random images
+        function generateRandomPopups() {
+            const imageSources = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg'];
 
-        // Function to continuously generate popups
-        function generatePopupsContinuously() {
-            const popupIds = ['popup1', 'popup2', 'popup3', 'popup4', 'popup5', 'popup6', 'popup7', 'popup8', 'popup9', 'popup10'];
-
-            let i = 0;
             setInterval(function() {
-                if (i < popupIds.length) {
-                    generatePopup(popupIds[i]);
-                    i++;
-                }
-            }, 300); // Generate a new popup every 3 seconds
+                const randomImageSrc = imageSources[Math.floor(Math.random() * imageSources.length)];
+                generatePopup(randomImageSrc);
+            }, 3000); // Generate a new popup every 3 seconds
         }
 
-        // Call the function to start generating popups
-        generatePopupsContinuously();
+        // Call the function to start generating random popups
+        generateRandomPopups();
     </script>
 </body>
 </html>
