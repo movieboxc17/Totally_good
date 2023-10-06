@@ -3,64 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Pop-up Gallery</title>
     <style>
-        /* Styles for the popup */
-        .popup {
-            display: none;
-            position: absolute;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        body {
+            font-family: Arial, sans-serif;
         }
-
-        /* Style for the images */
-        .popup img {
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .image-item {
+            margin: 10px;
+            cursor: pointer;
+        }
+        .image-item img {
             max-width: 100%;
             height: auto;
         }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            text-align: center;
+            overflow: auto;
+        }
+        .popup-content {
+            display: inline-block;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+        .popup-image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+        }
     </style>
-    <title>Random Image Popups</title>
 </head>
 <body>
+    <div class="image-container">
+        <!-- Add your image items here -->
+        <div class="image-item">
+            <img src="1.jpg" alt="Image 1" onclick="showImage('1.jpg')">
+        </div>
+        <div class="image-item">
+            <img src="2.jpg" alt="Image 2" onclick="showImage('2.jpg')">
+        </div>
+        <!-- Add more image items as needed -->
+    </div>
+
+    <!-- Popup container -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <span class="close-button" onclick="closeImage()">&times;</span>
+            <img src="" alt="Popup Image" id="popup-image" class="popup-image">
+        </div>
+    </div>
+
     <script>
-        // Function to generate and display a popup with a random position
-        function generatePopup(imageSrc) {
-            const popup = document.createElement("div");
-            popup.classList.add("popup");
-
-            const popupImage = document.createElement("img");
-            popupImage.src = imageSrc; // Set the image source
-            popup.appendChild(popupImage);
-
-            // Set random position
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-            const randomX = Math.floor(Math.random() * (screenWidth - 200)); // Adjust width of the popup
-            const randomY = Math.floor(Math.random() * (screenHeight - 200)); // Adjust height of the popup
-            popup.style.left = `${randomX}px`;
-            popup.style.top = `${randomY}px`;
-
-            document.body.appendChild(popup);
-
-            // Automatically close the popup after a delay (e.g., 5 seconds)
-            setTimeout(function() {
-                popup.remove();
-            }, 5000);
+        function showImage(imageSrc) {
+            const popup = document.getElementById('popup');
+            const popupImage = document.getElementById('popup-image');
+            popupImage.src = imageSrc;
+            popup.style.display = 'block';
         }
 
-        // Function to continuously generate popups with random images
-        function generateRandomPopups() {
-            const imageSources = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg'];
-
-            setInterval(function() {
-                const randomImageSrc = imageSources[Math.floor(Math.random() * imageSources.length)];
-                generatePopup(randomImageSrc);
-            }, 3000); // Generate a new popup every 3 seconds
+        function closeImage() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'none';
         }
-
-        // Call the function to start generating random popups
-        generateRandomPopups();
     </script>
 </body>
 </html>
