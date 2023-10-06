@@ -10,17 +10,21 @@
             overflow: hidden;
             background-color: black;
         }
-        .moving-image {
+        .moving-item {
             position: absolute;
-            animation: moveImage 0.05s linear infinite,
-                       rotateImage 0.05s linear infinite,
-                       flashImage 0.005s alternate infinite;
+            animation: moveItem 0.05s linear infinite,
+                       rotateItem 0.05s linear infinite,
+                       flashItem 0.005s alternate infinite;
+        }
+        .moving-image {
+            max-width: 50px;
         }
         .moving-window {
-            position: absolute;
-            animation: moveWindow 0.1s linear infinite;
+            max-width: 200px;
+            max-height: 150px;
+            overflow: hidden;
         }
-        @keyframes moveImage {
+        @keyframes moveItem {
             0% {
                 transform: translate(0, 0);
             }
@@ -37,7 +41,7 @@
                 transform: translate(0, 0);
             }
         }
-        @keyframes rotateImage {
+        @keyframes rotateItem {
             0% {
                 transform: rotate(0deg);
             }
@@ -45,7 +49,7 @@
                 transform: rotate(360deg);
             }
         }
-        @keyframes flashImage {
+        @keyframes flashItem {
             0% {
                 opacity: 1;
             }
@@ -53,41 +57,37 @@
                 opacity: 0;
             }
         }
-        @keyframes moveWindow {
-            0% {
-                transform: translate(0, 0);
-            }
-            25% {
-                transform: translate(50px, 0);
-            }
-            50% {
-                transform: translate(50px, 50px);
-            }
-            75% {
-                transform: translate(0, 50px);
-            }
-            100% {
-                transform: translate(0, 0);
-            }
-        }
     </style>
 </head>
 <body>
     <script>
-        function createMovingImagesAndWindows() {
+        function createMovingItems() {
             const numberOfItems = 10; // Increase the number of items
             for (let i = 0; i < numberOfItems; i++) {
                 const item = document.createElement('div');
-                item.className = i % 2 === 0 ? 'moving-image' : 'moving-window';
+                item.className = 'moving-item';
                 item.style.left = Math.random() * window.innerWidth + 'px';
                 item.style.top = Math.random() * window.innerHeight + 'px';
 
-                if (item.className === 'moving-window') {
+                if (i % 2 === 0) {
+                    // Create an image
+                    const image = new Image();
+                    const imageNumber = Math.floor(Math.random() * 10) + 1; // Randomly select an image from 1 to 10
+                    image.src = imageNumber + '.jpg'; // Replace with your image naming convention
+                    image.className = 'moving-image';
+                    item.appendChild(image);
+                } else {
+                    // Create a window (div with iframe)
+                    const window = document.createElement('div');
+                    window.className = 'moving-window';
+                    window.style.width = '200px';
+                    window.style.height = '150px';
                     const iframe = document.createElement('iframe');
-                    iframe.src = 'https://movieboxc17.github.io/Totally_good/'; // Replace with the website URL
-                    iframe.style.width = '200px';
-                    iframe.style.height = '150px';
-                    item.appendChild(iframe);
+                    iframe.src = 'https://www.example.com'; // Replace with the website URL
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    window.appendChild(iframe);
+                    item.appendChild(window);
                 }
 
                 document.body.appendChild(item);
@@ -95,7 +95,7 @@
         }
 
         // Create multiple moving items every 0.01 seconds (adjust the interval as needed)
-        setInterval(createMovingImagesAndWindows, 10);
+        setInterval(createMovingItems, 10);
     </script>
 </body>
 </html>
