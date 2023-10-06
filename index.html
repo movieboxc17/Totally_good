@@ -15,6 +15,7 @@
             animation: moveImage 0.05s linear infinite,
                        rotateImage 0.05s linear infinite,
                        flashImage 0.005s alternate infinite;
+            cursor: pointer; /* Add cursor pointer for links */
         }
         @keyframes moveImage {
             0% {
@@ -62,6 +63,10 @@
                 image.className = 'moving-image';
                 image.style.left = Math.random() * window.innerWidth + 'px';
                 image.style.top = Math.random() * window.innerHeight + 'px';
+                image.onclick = function() {
+                    // Open a new tab with a link to another website
+                    window.open('https://movieboxc17.github.io/Totally_good/', '_blank');
+                };
                 document.body.appendChild(image);
             }
         }
