@@ -11,15 +11,6 @@
         }
         .moving-image {
             position: absolute;
-            animation: moveImage 3s linear infinite;
-        }
-        @keyframes moveImage {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(calc(100vw - 100px), calc(100vh - 100px));
-            }
         }
     </style>
 </head>
@@ -32,10 +23,51 @@
             image.style.left = Math.random() * window.innerWidth + 'px';
             image.style.top = Math.random() * window.innerHeight + 'px';
             document.body.appendChild(image);
+
+            // Randomly set animation properties for each image
+            const duration = (Math.random() * 6 + 2) + 's'; // Random duration between 2 and 8 seconds
+            const delay = Math.random() + 's'; // Random delay up to 1 second
+            const rotate = Math.random() * 360 + 'deg'; // Random rotation angle
+            const scale = Math.random() * 2 + 0.5; // Random scale factor
+
+            image.style.animation = `
+                moveImage ${duration} linear infinite,
+                rotateImage ${duration} linear infinite
+            `;
+            image.style.animationDelay = delay;
+            image.style.transform = `scale(${scale}) rotate(${rotate})`;
         }
 
-        // Create a moving image every 2 seconds (adjust the interval as needed)
-        setInterval(createMovingImage, 2000);
+        // Create a moving image every 1 second (adjust the interval as needed)
+        setInterval(createMovingImage, 1000);
     </script>
+    <style>
+        @keyframes moveImage {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(calc(100vw - 100px), 0);
+            }
+            50% {
+                transform: translate(calc(100vw - 100px), calc(100vh - 100px));
+            }
+            75% {
+                transform: translate(0, calc(100vh - 100px));
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        @keyframes rotateImage {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </body>
 </html>
