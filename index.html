@@ -3,48 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repeating Images</title>
+    <title>Fast Image Pop-up</title>
     <style>
         body {
             font-family: Arial, sans-serif;
         }
         .image-container {
-            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .image-item {
+            margin: 10px;
+            cursor: pointer;
         }
         .image-item img {
             max-width: 100%;
             height: auto;
         }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            text-align: center;
+            overflow: auto;
+        }
+        .popup-content {
+            display: inline-block;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+        .popup-image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
-    <div class="image-container" id="image-container">
+    <div class="image-container">
         <!-- Add your image items here -->
-        <img src="1.jpg" alt="Image 1">
-        <img src="2.jpg" alt="Image 2">
+        <div class="image-item">
+            <img src="1.jpg" alt="Image 1" onclick="showImage('1.jpg')">
+        </div>
+        <div class="image-item">
+            <img src="2.jpg" alt="Image 2" onclick="showImage('2.jpg')">
+        </div>
         <!-- Add more image items as needed -->
     </div>
 
+    <!-- Popup container -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <span class="close-button" onclick="closeImage()">&times;</span>
+            <img src="" alt="Popup Image" id="popup-image" class="popup-image">
+        </div>
+    </div>
+
     <script>
-        const imageContainer = document.getElementById('image-container');
-        const images = ['1.jpg', '2.jpg']; // List of images to repeat
-        const repeatInterval = 2000; // Time interval to repeat the images (adjust as needed)
+        let currentIndex = 0;
+        const imagePaths = ['1.jpg', '2.jpg']; // Add more image paths as needed
+        const popup = document.getElementById('popup');
+        const popupImage = document.getElementById('popup-image');
 
-        function addImage(imageSrc) {
-            const img = document.createElement('img');
-            img.src = imageSrc;
-            img.alt = `Image ${imageContainer.children.length + 1}`;
-            imageContainer.appendChild(img);
+        function showImage(imageSrc) {
+            popupImage.src = imageSrc;
+            popup.style.display = 'block';
+
+            // Automatically close the popup after 1 millisecond
+            setTimeout(closeImage, 1);
         }
 
-        function repeatImages() {
-            for (const imageSrc of images) {
-                addImage(imageSrc);
-            }
+        function closeImage() {
+            popup.style.display = 'none';
+
+            // Show the next image (looping back to the first image if necessary)
+            currentIndex = (currentIndex + 1) % imagePaths.length;
+            showImage(imagePaths[currentIndex]);
         }
 
-        // Automatically repeat the images at the specified interval
-        setInterval(repeatImages, repeatInterval);
+        // Show the first image initially
+        showImage(imagePaths[currentIndex]);
     </script>
 </body>
 </html>
