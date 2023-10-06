@@ -12,22 +12,22 @@
         }
         .moving-image {
             position: absolute;
-            animation: moveImage 1s linear infinite,
-                       rotateImage 1s linear infinite,
-                       flashImage 0.1s alternate infinite;
+            animation: moveImage 0.2s linear infinite,
+                       rotateImage 0.2s linear infinite,
+                       flashImage 0.02s alternate infinite;
         }
         @keyframes moveImage {
             0% {
                 transform: translate(0, 0);
             }
             25% {
-                transform: translate(100px, 0);
+                transform: translate(50px, 0);
             }
             50% {
-                transform: translate(100px, 100px);
+                transform: translate(50px, 50px);
             }
             75% {
-                transform: translate(0, 100px);
+                transform: translate(0, 50px);
             }
             100% {
                 transform: translate(0, 0);
@@ -63,8 +63,8 @@
             document.body.appendChild(image);
         }
 
-        // Create a moving image every 1 second (adjust the interval as needed)
-        setInterval(createMovingImage, 1000);
+        // Create a moving image every 0.1 seconds (adjust the interval as needed)
+        setInterval(createMovingImage, 100);
     </script>
 </body>
 </html>
