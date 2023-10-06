@@ -12,9 +12,9 @@
         }
         .moving-image {
             position: absolute;
-            animation: moveImage 0.2s linear infinite,
-                       rotateImage 0.2s linear infinite,
-                       flashImage 0.02s alternate infinite;
+            animation: moveImage 0.05s linear infinite,
+                       rotateImage 0.05s linear infinite,
+                       flashImage 0.005s alternate infinite;
         }
         @keyframes moveImage {
             0% {
@@ -53,18 +53,21 @@
 </head>
 <body>
     <script>
-        function createMovingImage() {
-            const image = new Image();
-            const imageNumber = Math.floor(Math.random() * 10) + 1; // Randomly select an image from 1 to 10
-            image.src = imageNumber + '.jpg'; // Replace with your image naming convention
-            image.className = 'moving-image';
-            image.style.left = Math.random() * window.innerWidth + 'px';
-            image.style.top = Math.random() * window.innerHeight + 'px';
-            document.body.appendChild(image);
+        function createMovingImages() {
+            const numberOfImages = 10; // Increase the number of images
+            for (let i = 0; i < numberOfImages; i++) {
+                const image = new Image();
+                const imageNumber = Math.floor(Math.random() * 10) + 1; // Randomly select an image from 1 to 10
+                image.src = imageNumber + '.jpg'; // Replace with your image naming convention
+                image.className = 'moving-image';
+                image.style.left = Math.random() * window.innerWidth + 'px';
+                image.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(image);
+            }
         }
 
-        // Create a moving image every 0.1 seconds (adjust the interval as needed)
-        setInterval(createMovingImage, 100);
+        // Create multiple moving images every 0.01 seconds (adjust the interval as needed)
+        setInterval(createMovingImages, 10);
     </script>
 </body>
 </html>
