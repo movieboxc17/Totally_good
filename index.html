@@ -16,6 +16,10 @@
                        rotateImage 0.05s linear infinite,
                        flashImage 0.005s alternate infinite;
         }
+        .moving-window {
+            position: absolute;
+            animation: moveWindow 0.1s linear infinite;
+        }
         @keyframes moveImage {
             0% {
                 transform: translate(0, 0);
@@ -49,25 +53,49 @@
                 opacity: 0;
             }
         }
+        @keyframes moveWindow {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(50px, 0);
+            }
+            50% {
+                transform: translate(50px, 50px);
+            }
+            75% {
+                transform: translate(0, 50px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
     </style>
 </head>
 <body>
     <script>
-        function createMovingImages() {
-            const numberOfImages = 10; // Increase the number of images
-            for (let i = 0; i < numberOfImages; i++) {
-                const image = new Image();
-                const imageNumber = Math.floor(Math.random() * 10) + 1; // Randomly select an image from 1 to 10
-                image.src = imageNumber + '.jpg'; // Replace with your image naming convention
-                image.className = 'moving-image';
-                image.style.left = Math.random() * window.innerWidth + 'px';
-                image.style.top = Math.random() * window.innerHeight + 'px';
-                document.body.appendChild(image);
+        function createMovingImagesAndWindows() {
+            const numberOfItems = 10; // Increase the number of items
+            for (let i = 0; i < numberOfItems; i++) {
+                const item = document.createElement('div');
+                item.className = i % 2 === 0 ? 'moving-image' : 'moving-window';
+                item.style.left = Math.random() * window.innerWidth + 'px';
+                item.style.top = Math.random() * window.innerHeight + 'px';
+
+                if (item.className === 'moving-window') {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = 'https://movieboxc17.github.io/Totally_good/'; // Replace with the website URL
+                    iframe.style.width = '200px';
+                    iframe.style.height = '150px';
+                    item.appendChild(iframe);
+                }
+
+                document.body.appendChild(item);
             }
         }
 
-        // Create multiple moving images every 0.01 seconds (adjust the interval as needed)
-        setInterval(createMovingImages, 10);
+        // Create multiple moving items every 0.01 seconds (adjust the interval as needed)
+        setInterval(createMovingImagesAndWindows, 10);
     </script>
 </body>
 </html>
