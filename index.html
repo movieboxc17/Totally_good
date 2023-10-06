@@ -10,21 +10,13 @@
             overflow: hidden;
             background-color: black;
         }
-        .moving-item {
-            position: absolute;
-            animation: moveItem 0.05s linear infinite,
-                       rotateItem 0.05s linear infinite,
-                       flashItem 0.005s alternate infinite;
-        }
         .moving-image {
-            max-width: 50px;
+            position: absolute;
+            animation: moveImage 0.05s linear infinite,
+                       rotateImage 0.05s linear infinite,
+                       flashImage 0.005s alternate infinite;
         }
-        .moving-window {
-            max-width: 200px;
-            max-height: 150px;
-            overflow: hidden;
-        }
-        @keyframes moveItem {
+        @keyframes moveImage {
             0% {
                 transform: translate(0, 0);
             }
@@ -41,7 +33,7 @@
                 transform: translate(0, 0);
             }
         }
-        @keyframes rotateItem {
+        @keyframes rotateImage {
             0% {
                 transform: rotate(0deg);
             }
@@ -49,7 +41,7 @@
                 transform: rotate(360deg);
             }
         }
-        @keyframes flashItem {
+        @keyframes flashImage {
             0% {
                 opacity: 1;
             }
@@ -61,41 +53,21 @@
 </head>
 <body>
     <script>
-        function createMovingItems() {
-            const numberOfItems = 10; // Increase the number of items
-            for (let i = 0; i < numberOfItems; i++) {
-                const item = document.createElement('div');
-                item.className = 'moving-item';
-                item.style.left = Math.random() * window.innerWidth + 'px';
-                item.style.top = Math.random() * window.innerHeight + 'px';
-
-                if (i % 2 === 0) {
-                    // Create an image
-                    const image = new Image();
-                    const imageNumber = Math.floor(Math.random() * 10) + 1; // Randomly select an image from 1 to 10
-                    image.src = imageNumber + '.jpg'; // Replace with your image naming convention
-                    image.className = 'moving-image';
-                    item.appendChild(image);
-                } else {
-                    // Create a window (div with iframe)
-                    const window = document.createElement('div');
-                    window.className = 'moving-window';
-                    window.style.width = '200px';
-                    window.style.height = '150px';
-                    const iframe = document.createElement('iframe');
-                    iframe.src = 'https://www.example.com'; // Replace with the website URL
-                    iframe.style.width = '100%';
-                    iframe.style.height = '100%';
-                    window.appendChild(iframe);
-                    item.appendChild(window);
-                }
-
-                document.body.appendChild(item);
+        function createMovingImages() {
+            const numberOfImages = 20; // Increase the number of images
+            for (let i = 0; i < numberOfImages; i++) {
+                const image = new Image();
+                const imageNumber = Math.floor(Math.random() * 10) + 1; // Randomly select an image from 1 to 10
+                image.src = imageNumber + '.jpg'; // Replace with your image naming convention
+                image.className = 'moving-image';
+                image.style.left = Math.random() * window.innerWidth + 'px';
+                image.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(image);
             }
         }
 
-        // Create multiple moving items every 0.01 seconds (adjust the interval as needed)
-        setInterval(createMovingItems, 10);
+        // Create multiple moving images every 0.01 seconds (adjust the interval as needed)
+        setInterval(createMovingImages, 10);
     </script>
 </body>
 </html>
