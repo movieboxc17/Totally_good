@@ -36,111 +36,71 @@
             cursor: pointer;
         }
     </style>
-    <title>Multiple Popups Example</title>
+    <title>Auto-Popups Example</title>
 </head>
 <body>
-    <div class="popup" id="popup1">
-        <div class="popup-content">
-            <span class="close" id="closePopup1">&times;</span>
-            <h2>Popup 1 Content</h2>
-            <img src="1.jpg" alt="Image 1">
-        </div>
-    </div>
-
-    <div class="popup" id="popup2">
-        <div class="popup-content">
-            <span class="close" id="closePopup2">&times;</span>
-            <h2>Popup 2 Content</h2>
-            <img src="2.jpg" alt="Image 2">
-        </div>
-    </div>
-
-    <div class="popup" id="popup3">
-        <div class="popup-content">
-            <span class="close" id="closePopup3">&times;</span>
-            <h2>Popup 3 Content</h2>
-            <img src="3.jpg" alt="Image 3">
-        </div>
-    </div>
-
-    <div class="popup" id="popup4">
-        <div class="popup-content">
-            <span class="close" id="closePopup4">&times;</span>
-            <h2>Popup 4 Content</h2>
-            <img src="4.jpg" alt="Image 4">
-        </div>
-    </div>
-
-    <div class="popup" id="popup5">
-        <div class="popup-content">
-            <span class="close" id="closePopup5">&times;</span>
-            <h2>Popup 5 Content</h2>
-            <img src="5.jpg" alt="Image 5">
-        </div>
-    </div>
-
-    <div class="popup" id="popup6">
-        <div class="popup-content">
-            <span class="close" id="closePopup6">&times;</span>
-            <h2>Popup 6 Content</h2>
-            <img src="6.jpg" alt="Image 6">
-        </div>
-    </div>
-
-    <div class="popup" id="popup7">
-        <div class="popup-content">
-            <span class="close" id="closePopup7">&times;</span>
-            <h2>Popup 7 Content</h2>
-            <img src="7.jpg" alt="Image 7">
-        </div>
-    </div>
-
-    <div class="popup" id="popup8">
-        <div class="popup-content">
-            <span class="close" id="closePopup8">&times;</span>
-            <h2>Popup 8 Content</h2>
-            <img src="8.jpg" alt="Image 8">
-        </div>
-    </div>
-
-    <div class="popup" id="popup9">
-        <div class="popup-content">
-            <span class="close" id="closePopup9">&times;</span>
-            <h2>Popup 9 Content</h2>
-            <img src="9.jpg" alt="Image 9">
-        </div>
-    </div>
-
-    <div class="popup" id="popup10">
-        <div class="popup-content">
-            <span class="close" id="closePopup10">&times;</span>
-            <h2>Popup 10 Content</h2>
-            <img src="10.jpg" alt="Image 10">
-        </div>
-    </div>
+    <!-- Pop-up container -->
+    <div id="popupContainer"></div>
 
     <script>
-        // Function to open a specific popup
-        function openPopup(popupId) {
-            document.getElementById(popupId).style.display = "block";
+        // Function to generate and display a popup
+        function generatePopup(popupId) {
+            const popupContainer = document.getElementById("popupContainer");
+            const popup = document.createElement("div");
+            popup.classList.add("popup");
+            popup.id = popupId;
+
+            const popupContent = document.createElement("div");
+            popupContent.classList.add("popup-content");
+
+            const closeBtn = document.createElement("span");
+            closeBtn.classList.add("close");
+            closeBtn.innerHTML = "&times;";
+            closeBtn.addEventListener("click", function() {
+                closePopup(popupId);
+            });
+
+            const popupImage = document.createElement("img");
+            popupImage.src = `${popupId}.jpg`;
+            popupImage.alt = `Image ${popupId}`;
+
+            popupContent.appendChild(closeBtn);
+            popupContent.appendChild(popupImage);
+            popup.appendChild(popupContent);
+            popupContainer.appendChild(popup);
+
+            // Display the popup
+            popup.style.display = "block";
+
+            // Automatically close the popup after a delay (e.g., 5 seconds)
+            setTimeout(function() {
+                closePopup(popupId);
+            }, 5000);
         }
 
         // Function to close a specific popup
         function closePopup(popupId) {
-            document.getElementById(popupId).style.display = "none";
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.style.display = "none";
+            }
         }
 
-        // Event listeners to open and close popups
-        for (let i = 1; i <= 10; i++) {
-            document.getElementById(`closePopup${i}`).addEventListener("click", function() {
-                closePopup(`popup${i}`);
-            });
+        // Function to continuously generate popups
+        function generatePopupsContinuously() {
+            const popupIds = ['popup1', 'popup2', 'popup3', 'popup4', 'popup5', 'popup6', 'popup7', 'popup8', 'popup9', 'popup10'];
+
+            let i = 0;
+            setInterval(function() {
+                if (i < popupIds.length) {
+                    generatePopup(popupIds[i]);
+                    i++;
+                }
+            }, 3000); // Generate a new popup every 3 seconds
         }
 
-        // Call the function to open a specific popup automatically (e.g., after 5 seconds)
-        setTimeout(function () {
-            openPopup("popup1");
-        }, 2000); // 5000 milliseconds (5 seconds)
+        // Call the function to start generating popups
+        generatePopupsContinuously();
     </script>
 </body>
 </html>
