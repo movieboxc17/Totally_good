@@ -3,63 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Image Movement</title>
+    <title>You Are An Idiot</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
+            background-color: black;
         }
         .moving-image {
             position: absolute;
+            animation: moveImage 1s linear infinite,
+                       rotateImage 1s linear infinite,
+                       flashImage 0.1s alternate infinite;
         }
-    </style>
-</head>
-<body>
-    <script>
-        function createMovingImage() {
-            const image = new Image();
-            image.src = '1.jpg'; // Replace with your image URL
-            image.className = 'moving-image';
-            image.style.left = Math.random() * window.innerWidth + 'px';
-            image.style.top = Math.random() * window.innerHeight + 'px';
-            document.body.appendChild(image);
-
-            // Randomly set animation properties for each image
-            const duration = (Math.random() * 6 + 2) + 's'; // Random duration between 2 and 8 seconds
-            const delay = Math.random() + 's'; // Random delay up to 1 second
-            const rotate = Math.random() * 360 + 'deg'; // Random rotation angle
-            const scale = Math.random() * 2 + 0.5; // Random scale factor
-
-            image.style.animation = `
-                moveImage ${duration} linear infinite,
-                rotateImage ${duration} linear infinite
-            `;
-            image.style.animationDelay = delay;
-            image.style.transform = `scale(${scale}) rotate(${rotate})`;
-        }
-
-        // Create a moving image every 1 second (adjust the interval as needed)
-        setInterval(createMovingImage, 1000);
-    </script>
-    <style>
         @keyframes moveImage {
             0% {
                 transform: translate(0, 0);
             }
             25% {
-                transform: translate(calc(100vw - 100px), 0);
+                transform: translate(100px, 0);
             }
             50% {
-                transform: translate(calc(100vw - 100px), calc(100vh - 100px));
+                transform: translate(100px, 100px);
             }
             75% {
-                transform: translate(0, calc(100vh - 100px));
+                transform: translate(0, 100px);
             }
             100% {
                 transform: translate(0, 0);
             }
         }
-
         @keyframes rotateImage {
             0% {
                 transform: rotate(0deg);
@@ -68,6 +41,30 @@
                 transform: rotate(360deg);
             }
         }
+        @keyframes flashImage {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
     </style>
+</head>
+<body>
+    <script>
+        function createMovingImage() {
+            const image = new Image();
+            const imageNumber = Math.floor(Math.random() * 10) + 1; // Randomly select an image from 1 to 10
+            image.src = imageNumber + '.jpg'; // Replace with your image naming convention
+            image.className = 'moving-image';
+            image.style.left = Math.random() * window.innerWidth + 'px';
+            image.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(image);
+        }
+
+        // Create a moving image every 1 second (adjust the interval as needed)
+        setInterval(createMovingImage, 1000);
+    </script>
 </body>
 </html>
